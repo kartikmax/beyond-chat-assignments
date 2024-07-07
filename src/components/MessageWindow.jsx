@@ -29,19 +29,14 @@ const Message = ({ message, sender, timestamp, isSender }) => (
     alignItems="center"
     mb={2}
   >
-    <Avatar
-      alt={sender.name}
-      src={sender.avatar || "U"}
-    />
+    <Avatar alt={sender.name} src={sender.avatar || "U"} />
     <Paper
       elevation={3}
       style={{
         padding: "10px",
         marginLeft: isSender ? "0" : "10px",
         marginRight: isSender ? "10px" : "0",
-        backgroundColor: isSender ? "#3a3a3a" : "#1a1a1a",
-        color: "#ffffff",
-        maxWidth: "60%",
+        // maxWidth: "60%",
       }}
     >
       <Typography variant="body2" color="textSecondary">
@@ -62,7 +57,11 @@ const MessageList = ({ messages }) => (
         {(index === 0 ||
           new Date(messages[index - 1].created_at).toDateString() !==
             new Date(msg.created_at).toDateString()) && (
-          <Divider style={{ color: "#ffffff", margin: "10px 0" }}>
+          <Divider
+            style={{
+              margin: "10px 0",
+            }}
+          >
             {new Date(msg.created_at).toDateString()}
           </Divider>
         )}
@@ -91,7 +90,6 @@ export const MessageWindow = () => {
     <Container
       maxWidth="md"
       style={{
-        backgroundColor: "#2b2b2b",
         padding: "20px",
         borderRadius: "10px",
         height: "100vh",
@@ -100,7 +98,11 @@ export const MessageWindow = () => {
     >
       <Typography
         variant="h5"
-        style={{ color: "#ffffff", marginBottom: "20px", zIndex:2,position:'fixed' }}
+        style={{
+          marginBottom: "20px",
+          zIndex: 2,
+          position: "fixed",
+        }}
       >
         Chat
       </Typography>

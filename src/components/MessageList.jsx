@@ -1,6 +1,6 @@
 // MessageList.js
 import React from "react";
-import { Stack, Avatar, Typography } from "@mui/material";
+import { Stack, Avatar, Typography, Chip } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { selectMessage } from "../redux/selectedMessageSlice";
 
@@ -22,7 +22,7 @@ export const MessageList = ({ title, msgCount, status, time, id }) => {
         borderRadius: "8px",
         margin: "10px 0",
         backgroundColor: "#f9f9f9",
-        cursor: "pointer"
+        cursor: "pointer",
       }}
       onClick={() => {
         dispatch(selectMessage(id));
@@ -42,9 +42,13 @@ export const MessageList = ({ title, msgCount, status, time, id }) => {
           <Typography variant="caption" color="red">
             {extractTime(time)}
           </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {msgCount}
-          </Typography>
+          {/* <Typography variant="body2" color="textSecondary"> */}
+          <Chip
+            label={msgCount}
+            color="primary"
+            style={{ height: 20, borderRadius: 26 }}
+          />
+          {/* </Typography> */}
         </Stack>
       </Stack>
     </div>

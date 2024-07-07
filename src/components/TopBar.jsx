@@ -2,17 +2,26 @@ import { useState, useEffect } from "react";
 import React from "react";
 import {
   Stack,
-  TextField,
   Tabs,
   Tab,
   Box,
   IconButton,
   Menu,
   MenuItem,
+  InputAdornment,
+  OutlinedInput,
+  ListItemIcon,
 } from "@mui/material";
 import { MessageList } from "./MessageList";
 import axios from "axios";
 import MenuIcon from "@mui/icons-material/Menu";
+import {
+  Cloud,
+  Logout,
+  SearchOutlined,
+  AccountCircle,
+  DarkMode,
+} from "@mui/icons-material";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -66,7 +75,12 @@ export const TopBar = () => {
 
   return (
     <>
-      <Stack direction="row" alignItems="center" gap={2}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        gap={2}
+        style={{ margin: "10 0" }}
+      >
         <IconButton onClick={handleClick}>
           <MenuIcon />
         </IconButton>
@@ -79,15 +93,45 @@ export const TopBar = () => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Theme</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <AccountCircle fontSize="small" />
+            </ListItemIcon>
+            <ListItemIcon>Profile</ListItemIcon>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Cloud fontSize="small" />
+            </ListItemIcon>
+            <ListItemIcon>My Account</ListItemIcon>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <DarkMode fontSize="small" />
+            </ListItemIcon>
+            <ListItemIcon>Theme</ListItemIcon>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            <ListItemIcon>Logout</ListItemIcon>
+          </MenuItem>
         </Menu>
-        <TextField id="outlined-basic" label="search" variant="outlined" />
+        <OutlinedInput
+          style={{ height: "36px", borderRadius: "16px" }}
+          id="outlined-basic"
+          label="search"
+          variant="outlined"
+          endAdornment={
+            <InputAdornment position="start">
+              <IconButton>
+                <SearchOutlined />
+              </IconButton>
+            </InputAdornment>
+          }
+        />
       </Stack>
-
-      {/* this is tabs started  */}
 
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
