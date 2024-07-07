@@ -1,8 +1,18 @@
+import { useState, useEffect } from "react";
 import React from "react";
-import { Stack, TextField, Tabs, Tab, Box } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  Tabs,
+  Tab,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { MessageList } from "./MessageList";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -14,7 +24,7 @@ function CustomTabPanel(props) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
-      style={{overflowY:'auto',height:"90vh"}}
+      style={{ overflowY: "auto", height: "90vh" }}
     >
       {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
@@ -24,6 +34,15 @@ function CustomTabPanel(props) {
 export const TopBar = () => {
   const [value, setValue] = useState(0);
   const [data, setData] = useState();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +67,23 @@ export const TopBar = () => {
   return (
     <>
       <Stack direction="row" alignItems="center" gap={2}>
-        M
+        <IconButton onClick={handleClick}>
+          <MenuIcon />
+        </IconButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          <MenuItem onClick={handleClose}>My account</MenuItem>
+          <MenuItem onClick={handleClose}>Theme</MenuItem>
+          <MenuItem onClick={handleClose}>Logout</MenuItem>
+        </Menu>
         <TextField id="outlined-basic" label="search" variant="outlined" />
       </Stack>
 
@@ -69,7 +104,14 @@ export const TopBar = () => {
         <CustomTabPanel value={value} index={0}>
           {data
             ? data.map((x) => (
-                <MessageList key={x.id} title={x.creator.email} msgCount={x.msg_count} status = {x.status} time={x.updated_at} id={x.id}  />
+                <MessageList
+                  key={x.id}
+                  title={x.creator.email}
+                  msgCount={x.msg_count}
+                  status={x.status}
+                  time={x.updated_at}
+                  id={x.id}
+                />
               ))
             : "Data is loading..."}
         </CustomTabPanel>

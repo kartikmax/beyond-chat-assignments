@@ -1,51 +1,50 @@
-import React,{useEffect} from "react";
+// MessageList.js
+import React from "react";
 import { Stack, Avatar, Typography } from "@mui/material";
-import { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { selectMessage } from "../redux/selectedMessageSlice";
 
 function extractTime(dateTimeString) {
   const date = new Date(dateTimeString);
-  const hours = String(date.getUTCHours()).padStart(2, '0');
-  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-  // const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
 
-export const MessageList = ({title,msgCount,status,time,id}) => {
-    console.log('first')
-
-
-    const [data,setData]=useState()
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const res = await axios.get(
-            `https://devapi.beyondchats.com/api/get_chat_messages?chat_id=${id}`
-          );
-          setData(res.data);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      fetchData();
-    }, []);
-
-    console.log(data)
-   
+export const MessageList = ({ title, msgCount, status, time, id }) => {
+  const dispatch = useDispatch();
 
   return (
-    <div style={{border:'1px solid'}} onClick={()=>{console.log('click',title,data)}} >
-      <Stack direction="row">
-        <Avatar>M</Avatar>
-        <Stack spacing={2}>
-          <Typography>{title} </Typography>
-          <Typography> {status} </Typography>
+    <div
+      style={{
+        border: "1px solid",
+        padding: "10px",
+        borderRadius: "8px",
+        margin: "10px 0",
+        backgroundColor: "#f9f9f9",
+        cursor: "pointer"
+      }}
+      onClick={() => {
+        dispatch(selectMessage(id));
+      }}
+    >
+      <Stack direction="row" alignItems="center" spacing={2}>
+        <Avatar>{title.charAt(0).toUpperCase()}</Avatar>
+        <Stack flex={1}>
+          <Typography variant="subtitle1" noWrap>
+            {title}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {status}
+          </Typography>
         </Stack>
-        <Stack spacing={2} >
-          <Typography style={{color:'red'}}>{extractTime(time)} </Typography>
-
-          <Typography>{msgCount} </Typography>
+        <Stack alignItems="flex-end">
+          <Typography variant="caption" color="red">
+            {extractTime(time)}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {msgCount}
+          </Typography>
         </Stack>
       </Stack>
     </div>
