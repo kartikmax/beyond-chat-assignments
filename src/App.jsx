@@ -4,7 +4,7 @@ import { TopBar } from "./components/TopBar";
 
 function App() {
   return (
-    <div className="main">
+    <div className="main" color="primary">
       <div className="chats-section">
         <TopBar />
       </div>

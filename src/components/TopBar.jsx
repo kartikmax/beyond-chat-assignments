@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Stack,
   Tabs,
@@ -22,6 +21,7 @@ import {
   AccountCircle,
   DarkMode,
 } from "@mui/icons-material";
+import { ThemeContext } from "../theme/themeContext";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,10 +41,11 @@ function CustomTabPanel(props) {
 }
 
 export const TopBar = () => {
+  const { toggleTheme, mode } = useContext(ThemeContext);
   const [value, setValue] = useState(0);
   const [data, setData] = useState();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,7 +68,7 @@ export const TopBar = () => {
     fetchData();
   }, []);
 
-  console.log(data);
+  // console.log(data);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -80,6 +81,7 @@ export const TopBar = () => {
         alignItems="center"
         gap={2}
         style={{ margin: "10 0" }}
+        
       >
         <IconButton onClick={handleClick}>
           <MenuIcon />
@@ -105,7 +107,12 @@ export const TopBar = () => {
             </ListItemIcon>
             <ListItemIcon>My Account</ListItemIcon>
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem
+            onClick={() => {
+              toggleTheme();
+              handleClose();
+            }}
+          >
             <ListItemIcon>
               <DarkMode fontSize="small" />
             </ListItemIcon>
@@ -138,7 +145,7 @@ export const TopBar = () => {
           <Tabs
             value={value}
             onChange={handleChange}
-            aria-label="basic tabs example"
+            color='primary'
           >
             <Tab label="All Chats" />
             <Tab label="Personal" />
